@@ -14,16 +14,16 @@
             min-height: 100vh; box-sizing: border-box;
         }
         .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; box-sizing: border-box; }
-        h2 { color: #D4AF37; margin-bottom: 25px; font-weight: normal; letter-spacing: 1px; }
+        h2 { color: #c8a94a; margin-bottom: 25px; font-weight: normal; letter-spacing: 1px; }
         input {
             width: 100%; padding: 14px; margin: 10px 0;
             background: #1a1a1a; border: 1px solid #333; border-radius: 6px;
             color: #fff; font-size: 16px; box-sizing: border-box;
         }
-        input:focus { border-color: #D4AF37; outline: none; }
+        input:focus { border-color: #c8a94a; outline: none; }
         .btn {
             width: 100%; padding: 15px; margin-top: 20px;
-            background: #D4AF37; border: none; border-radius: 6px;
+            background: #c8a94a; border: none; border-radius: 6px;
             color: #000; font-size: 16px; font-weight: bold; cursor: pointer; letter-spacing: 1px;
         }
         .img-container { max-width: 100%; max-height: 300px; margin-top: 15px; display: none; border: 1px solid #333; }
@@ -45,7 +45,7 @@
     <input type="text" id="school" placeholder="Город / Школа (например, НИШ Павлодар)">
     <input type="text" id="year" placeholder="Год выпуска (например, 20')">
     
-    <p style="text-align:left; font-size:14px; color:#666; margin-bottom:5px; font-family:sans-serif;">Загрузите свое фото:</p>
+    <p style="text-align:left; font-size:14px; color:#666; margin-bottom:5px; font-family:sans-serif;">Загрузите свое foto:</p>
     <input type="file" id="upload" accept="image/*">
     
     <div class="img-container">
@@ -99,69 +99,71 @@
         canvas.height = 1920;
         const ctx = canvas.getContext('2d');
 
-        // 1. Делаем глубокий черный фон
+        // 1. Черный фон
         ctx.fillStyle = '#090909';
         ctx.fillRect(0, 0, 1080, 1920);
 
-        // 2. Добавляем тонкую золотую декоративную линию сверху
-        ctx.strokeStyle = '#D4AF37';
+        // 2. Золотая линия сверху
+        ctx.strokeStyle = '#c8a94a';
         ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(140, 180);
-        ctx.lineTo(940, 180);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(140, 180); ctx.lineTo(940, 180); ctx.stroke();
 
-        // 3. Пишем заголовок вверху страницы (как на скрине)
-        ctx.fillStyle = '#D4AF37';
+        // 3. Заголовок бала на самом верху
+        ctx.fillStyle = '#c8a94a';
         ctx.textAlign = 'center';
         ctx.font = 'italic 46px "Times New Roman", Georgia, serif';
         ctx.fillText('Annual NIS Alumni', 540, 110);
         ctx.fillText('Fundraising Ball 2026', 540, 160);
 
-        // 4. Достаем квадратное фото пользователя и рисуем его строго по центру
+        // 4. Отрисовка квадратного фото пользователя
         const croppedCanvas = cropper.getCroppedCanvas({ width: 800, height: 800 });
         ctx.drawImage(croppedCanvas, 140, 240, 800, 800);
 
-        // 5. Тонкая золотая рамка вокруг самой фотографии для премиальности
-        ctx.strokeStyle = '#D4AF37';
+        // 5. Тонкая золотая рамка вокруг фото
+        ctx.strokeStyle = '#c8a94a';
         ctx.lineWidth = 3;
         ctx.strokeRect(140, 240, 800, 800);
 
-        // 6. Блок текста ВНИЗУ (Текст "I AM ATTENDING..." со скрина)
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 54px "Times New Roman", Georgia, serif';
-        ctx.fillText('I AM ATTENDING', 540, 1150);
+        // --- ТЕПЕРЬ ЛИЧНЫЕ ДАННЫЕ ИДУТ ПЕРВЫМИ (И ОНИ БОЛЬШЕ) ---
         
-        ctx.fillStyle = '#D4AF37'; // Золотой акцент
-        ctx.font = 'bold 62px "Times New Roman", Georgia, serif';
-        ctx.fillText('ALUMNI NIS', 540, 1230);
-        ctx.fillText('FUNDRAISING', 540, 1310);
-        ctx.fillText('BALL 2026!', 540, 1390);
+        // 6. Выводим ФИО (сделали крупнее — 56px вместо 46px)
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 56px "Times New Roman", Georgia, serif';
+        ctx.fillText(fio.toUpperCase(), 540, 1140);
 
-        // 7. Горизонтальный разделитель перед личными данными
+        // Род деятельности (чуть крупнее и четче)
+        ctx.fillStyle = '#b5b5b5'; 
+        ctx.font = 'italic 38px "Times New Roman", Georgia, serif';
+        ctx.fillText(job, 540, 1205);
+
+        // Школа и Год (крупным золотым цветом #c8a94a)
+        ctx.fillStyle = '#c8a94a'; 
+        ctx.font = 'bold 46px "Times New Roman", Georgia, serif';
+        ctx.fillText(`${school} '${year}`, 540, 1280);
+
+        // Тонкий разделитель
         ctx.strokeStyle = '#222222';
         ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(200, 1460); ctx.lineTo(880, 1460); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(200, 1340); ctx.lineTo(880, 1340); ctx.stroke();
 
-        // 8. Выводим то, что ввел пользователь (ФИО, Школа, Год)
+        // --- ФРАЗА "I AM ATTENDING..." ТЕПЕРЬ ВНИЗУ И МЕНЬШЕ ---
+
         ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 46px "Times New Roman", Georgia, serif';
-        ctx.fillText(fio.toUpperCase(), 540, 1530);
+        ctx.font = 'bold 42px "Times New Roman", Georgia, serif';
+        ctx.fillText('I AM ATTENDING', 540, 1430);
+        
+        ctx.fillStyle = '#c8a94a'; // Золотой
+        ctx.font = 'bold 50px "Times New Roman", Georgia, serif';
+        ctx.fillText('ALUMNI NIS', 540, 1500);
+        ctx.fillText('FUNDRAISING', 540, 1570);
+        ctx.fillText('BALL 2026!', 540, 1640);
 
-        ctx.fillStyle = '#888888'; // Приглушенный цвет для профессии
-        ctx.font = 'italic 34px "Times New Roman", Georgia, serif';
-        ctx.fillText(job, 540, 1585);
-
-        ctx.fillStyle = '#D4AF37'; // Снова золото для школы
-        ctx.font = 'bold 38px "Times New Roman", Georgia, serif';
-        ctx.fillText(`${school} '${year}`, 540, 1650);
-
-        // Маленький водяной знак в самый низ
+        // Водяной знак инсты в самый низ
         ctx.fillStyle = '#444444';
         ctx.font = '30px sans-serif';
         ctx.fillText('@alumni.ball', 540, 1830);
 
-        // Показываем результат
+        // Вывод готовой картинки в модалку
         const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
         document.getElementById('result-image').src = dataUrl;
         document.getElementById('result-modal').style.display = 'flex';
